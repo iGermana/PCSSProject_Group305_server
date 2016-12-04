@@ -12,3 +12,5 @@ C:\Users\EneAlicia\Desktop\NetworkingEneAliciaSøderberg\TcpEchoServer\TcpEchoSe
 C:\Users\EneAlicia\Desktop\NetworkingEneAliciaSøderberg\TcpEchoServer\TcpEchoServer\obj\x86\Debug\TcpEchoServer.csprojResolveAssemblyReference.cache
 C:\Users\EneAlicia\Desktop\NetworkingEneAliciaSøderberg\TcpEchoServer\TcpEchoServer\bin\Debug\TcpEchoServer.exe
 C:\Users\EneAlicia\Desktop\NetworkingEneAliciaSøderberg\TcpEchoServer\TcpEchoServer\bin\Debug\TcpEchoServer.pdb
+C:\Users\EneAlicia\Desktop\NetworkingEneAliciaSøderberg\AliciasCodeAsOfFridayNight\TcpEchoServer\TcpEchoServer\obj\x86\Debug\TcpEchoServer.exe
+C:\Users\EneAlicia\Desktop\NetworkingEneAliciaSøderberg\AliciasCodeAsOfFridayNight\TcpEchoServer\TcpEchoServer\obj\x86\Debug\TcpEchoServer.pdb
