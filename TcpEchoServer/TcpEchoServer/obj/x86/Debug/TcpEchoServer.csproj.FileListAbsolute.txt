@@ -7,3 +7,10 @@ C:\Users\EneAlicia\Downloads\TcpEcho\TcpEchoServer\TcpEchoServer\obj\x86\Debug\T
 C:\Users\EneAlicia\Downloads\TcpEcho\TcpEchoServer\TcpEchoServer\bin\Debug\TcpEchoServer.exe
 C:\Users\EneAlicia\Downloads\TcpEcho\TcpEchoServer\TcpEchoServer\bin\Debug\TcpEchoServer.pdb
 C:\Users\EneAlicia\Downloads\TcpEcho\TcpEchoServer\TcpEchoServer\obj\x86\Debug\TcpEchoServer.csprojResolveAssemblyReference.cache
+C:\Users\EneAlicia\Desktop\NetworkingEneAliciaSøderberg\TcpEchoServer\TcpEchoServer\obj\x86\Debug\TcpEchoServer.exe
+C:\Users\EneAlicia\Desktop\NetworkingEneAliciaSøderberg\TcpEchoServer\TcpEchoServer\obj\x86\Debug\TcpEchoServer.pdb
+C:\Users\EneAlicia\Desktop\NetworkingEneAliciaSøderberg\TcpEchoServer\TcpEchoServer\obj\x86\Debug\TcpEchoServer.csprojResolveAssemblyReference.cache
+C:\Users\EneAlicia\Desktop\NetworkingEneAliciaSøderberg\TcpEchoServer\TcpEchoServer\bin\Debug\TcpEchoServer.exe
+C:\Users\EneAlicia\Desktop\NetworkingEneAliciaSøderberg\TcpEchoServer\TcpEchoServer\bin\Debug\TcpEchoServer.pdb
+C:\Users\EneAlicia\Desktop\NetworkingEneAliciaSøderberg\ServerClientWithGlobals\TcpEchoServer\TcpEchoServer\obj\x86\Debug\TcpEchoServer.exe
+C:\Users\EneAlicia\Desktop\NetworkingEneAliciaSøderberg\ServerClientWithGlobals\TcpEchoServer\TcpEchoServer\obj\x86\Debug\TcpEchoServer.pdb
