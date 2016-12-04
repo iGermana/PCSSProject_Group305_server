@@ -415,7 +415,7 @@ namespace TcpEchoServer
                                     stream.Write(outputData, 0, outputData.Length);
 
                                     stream.Flush();
-                                    Globals.fascistCounter = Globals.fascistCounter + 2;
+                                    Globals.fascistCounter--;
                                     Console.WriteLine("\n the amount of fascist cards is: " + Globals.fascistCounter);
                                     outputData = Encoding.ASCII.GetBytes("\n the amount of fascist cards is now: " + Globals.fascistCounter.ToString() + "\n and the amount of liberal cards is: " + Globals.liberalCounter.ToString());
                                     stream.Write(outputData, 0, outputData.Length);
