@@ -17,3 +17,8 @@ C:\Users\Ervin\Desktop\fredagsServer\TcpEchoServer\TcpEchoServer\obj\x86\Debug\T
 C:\Users\Ervin\Desktop\fredagsServer\TcpEchoServer\TcpEchoServer\bin\Debug\TcpEchoServer.exe
 C:\Users\Ervin\Desktop\fredagsServer\TcpEchoServer\TcpEchoServer\bin\Debug\TcpEchoServer.pdb
 C:\Users\Ervin\Desktop\fredagsServer\TcpEchoServer\TcpEchoServer\obj\x86\Debug\TcpEchoServer.csprojResolveAssemblyReference.cache
+C:\Users\EneAlicia\Downloads\SondagsCodeUdes\SondagsCodeUdes\TcpEchoServer\TcpEchoServer\obj\x86\Debug\TcpEchoServer.exe
+C:\Users\EneAlicia\Downloads\SondagsCodeUdes\SondagsCodeUdes\TcpEchoServer\TcpEchoServer\obj\x86\Debug\TcpEchoServer.pdb
+C:\Users\EneAlicia\Downloads\SondagsCodeUdes\SondagsCodeUdes\TcpEchoServer\TcpEchoServer\bin\Debug\TcpEchoServer.exe
+C:\Users\EneAlicia\Downloads\SondagsCodeUdes\SondagsCodeUdes\TcpEchoServer\TcpEchoServer\bin\Debug\TcpEchoServer.pdb
+C:\Users\EneAlicia\Downloads\SondagsCodeUdes\SondagsCodeUdes\TcpEchoServer\TcpEchoServer\obj\x86\Debug\TcpEchoServer.csprojResolveAssemblyReference.cache
