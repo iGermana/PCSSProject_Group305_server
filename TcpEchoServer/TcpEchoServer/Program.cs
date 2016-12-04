@@ -40,10 +40,36 @@ namespace TcpEchoServer
 
         public static void Main()
         {
+            shuffleDeckAlgo.deck(Globals.cardsArray);
+            Console.WriteLine("deck is shuffled and is alined currently like this");
+            for (int i = 0; i < Globals.cardsArray.Count; i++)
+            {
+                Console.Write(Globals.cardsArray[i]);
+            }
+            Console.WriteLine("");
             TcpEchoServer server = new TcpEchoServer();
 
         }
     }
+
+    public static class shuffleDeckAlgo
+    {
+        static Random rnd = new Random();
+
+        public static void deck(List<int> decklist)
+        {
+            for (int i = decklist.Count-1; i > 0; i--)
+            {
+                int j = rnd.Next(i + 1);
+                int temp = decklist[i];
+                decklist[i] = decklist[j];
+                decklist[j] = temp;
+            }
+
+        }
+
+    }
+
 
     public static class Globals
     {
@@ -68,6 +94,9 @@ namespace TcpEchoServer
         public static int failedVotes { get; set;}
         public static bool haveAssignedPresident { get; set; }
         public static bool haveAssignedChancellor { get; set; }
+        public static List<int> cardsArray = new List<int>{ 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, };
+        public static int cardPicker = 0;
+
 
         public static int countYes { get; set; }
         public static int countNo { get; set; }
@@ -122,7 +151,7 @@ namespace TcpEchoServer
                 assignedRole = roles[1];
             }*/
 
-            string welcome = "Welcome to secret hitler, please enter your name";
+            string welcome = "Welcome to secret hitler, please wait for 6 players";
             data = Encoding.ASCII.GetBytes(welcome);
             stream.Write(data, 0, data.Length);
 
@@ -162,7 +191,7 @@ namespace TcpEchoServer
                         }
                         Globals.newRound = false;
                     }
-
+                    
                     if (playerName == "player" + Globals.currentPresident.ToString() && Globals.haveAssignedPresident == false)
                     {
                         Console.WriteLine("presidentpicked");
@@ -173,14 +202,14 @@ namespace TcpEchoServer
 
                     }
 
-                    /*if (assignedRole != roles[0])
+                    if (assignedRole != roles[0])
                     {
                         stream.Flush();
                         outputData = Encoding.ASCII.GetBytes("chancellor");
                         stream.Write(outputData, 0, outputData.Length);
                         Console.WriteLine("counc picked");
                         assignedRole = roles[1];
-                    }*/
+                    }
 
                     if (Globals.haveVotedForChancellor == false && Globals.haveAssignedPresident == true)
                     {
@@ -290,8 +319,8 @@ namespace TcpEchoServer
                         if (Globals.haveAssignedPresidentCards == false)
                         {
                             stream.Flush();
-
-                            string presidentMessage = "\n You have received the following cards: \n card 1: " + Globals.cards[0] + "\n card 2: " + Globals.cards[1] + " \n card 3: " + Globals.cards[2] + " \n choose either 1, 2 or 3 to discard the card.";
+//////////////////////
+                            string presidentMessage = "\n You have received the following cards: \n card 1: " + Globals.cardsArray[Globals.cardPicker] + "\n card 2: " + Globals.cardsArray[Globals.cardPicker + 1] + " \n card 3: " + Globals.cards[Globals.cardPicker + 2] + " \n choose either 1, 2 or 3 to discard the card.";
                             outputData = Encoding.ASCII.GetBytes(presidentMessage);
                             stream.Write(outputData, 0, outputData.Length);
                             Globals.haveAssignedPresidentCards = true;
@@ -300,17 +329,17 @@ namespace TcpEchoServer
                         {
                             if (inputLine == "1")
                             {
-                                Globals.cards.RemoveAt(0);
+                                Globals.cardsArray.Remove(Globals.cardPicker);
                                 Globals.readyForChancellor = true;
                             }
                             if (inputLine == "2")
                             {
-                                Globals.cards.RemoveAt(1);
+                                Globals.cardsArray.RemoveAt(Globals.cardPicker);
                                 Globals.readyForChancellor = true;
                             }
                             if (inputLine == "3")
                             {
-                                Globals.cards.RemoveAt(2);
+                                Globals.cardsArray.RemoveAt(Globals.cardPicker);
                                 Globals.readyForChancellor = true;
                             }
 
@@ -339,7 +368,7 @@ namespace TcpEchoServer
                             if (Globals.haveAssignedChancellorCards == false)
                             {
                                 stream.Flush();
-                                string chancellorMessage = "the president have given you the following cards: \n card 1: " + Globals.cards[0] + "\n card 2: " + Globals.cards[1] + "\n choose either 1 or 2 to pick the card to play";
+                                string chancellorMessage = "the president have given you the following cards: \n card 1: " + Globals.cards[Globals.cardPicker] + "\n card 2: " + Globals.cards[Globals.cardPicker + 1] + "\n choose either 1 or 2 to pick the card to play";
                                 outputData = Encoding.ASCII.GetBytes(chancellorMessage);
                                 stream.Write(outputData, 0, outputData.Length);
                                 Globals.haveAssignedChancellorCards = true;
@@ -349,12 +378,12 @@ namespace TcpEchoServer
                             {
                                 if (inputLine == "1")
                                 {
-                                    Globals.cards.RemoveAt(1);
+                                    Globals.cardsArray.RemoveAt(1);
                                     Globals.oneCardPicked = true;
                                 }
                                 if (inputLine == "2")
                                 {
-                                    Globals.cards.RemoveAt(0);
+                                    Globals.cardsArray.RemoveAt(0);
                                     Globals.oneCardPicked = true;
                                 }
 
