@@ -48,7 +48,7 @@ namespace TcpEchoServer
     public static class Globals
     {
         public static bool haveAssignedPresidentCards { get; set; }
-        public static  bool haveAssignedChancellorCards { get; set; }
+        public static bool haveAssignedChancellorCards { get; set; }
         public static bool readyForChancellor { get; set; }
         public static bool oneCardPicked { get; set; }
         public static List<string> cards = new List<string> { "fascist", "liberal", "fascist" };
@@ -58,6 +58,7 @@ namespace TcpEchoServer
         public static bool displayCards { get; set; }
         public static bool readyForNextRound { get; set; }
         public static bool enablePolicy { get; set; }
+        public static bool haveAddedCardToCounter { get; set; }
 
 
     }
@@ -105,9 +106,6 @@ namespace TcpEchoServer
             string welcome = "Welcome to secret hitler, please enter your name";
             data = Encoding.ASCII.GetBytes(welcome);
             stream.Write(data, 0, data.Length);
-            /*stream.Flush();
-            outputData = Encoding.ASCII.GetBytes(assignedRole);
-            stream.Write(outputData, 0, outputData.Length);*/
 
 
             try
@@ -140,7 +138,7 @@ namespace TcpEchoServer
                         stream.Write(outputData, 0, outputData.Length);
                         haveAssignedRole = true;
                     }
-                    
+
 
                     if (assignedRole == roles[0]) //president
                     {
@@ -179,36 +177,7 @@ namespace TcpEchoServer
                             stream.Write(outputData, 0, outputData.Length);
                         }
 
-                        if (Globals.enablePolicy == true)
-                        {
 
-
-                            /*if (Globals.fascistCounter == 2)
-                            {
-                                Inact.inactSearch();
-                                Inact.iInact = true;
-                            }
-
-                            if (Globals.fascistCounter == 3)
-                            {
-                                Inact.inactPresidentialPick();
-                                Inact.iInact = true;
-                            }
-
-                            if (Globals.fascistCounter == 4)
-                            {
-                                Inact.inactExecuteOrder66();
-                                Inact.iInact = true;
-                            }
-
-                            if (Globals.fascistCounter == 5)
-                            {
-                                Inact.inactVetoAndExecution();
-                                Inact.iInact = true;
-
-                            }
-                            */
-                        }
                     }
 
                     if (assignedRole == roles[1]) //chancellor
@@ -246,38 +215,119 @@ namespace TcpEchoServer
 
                             }
                         }
-                        
+
                     }
 
                     if (Globals.oneCardPicked == true && Globals.readyForNextRound == false)
                     {
-                        stream.Flush();
-                        outputData = Encoding.ASCII.GetBytes("The chosen policy is: " + Globals.cards[0]);
-                        stream.Write(outputData, 0, outputData.Length);
-
                         if (Globals.cards[0] == "fascist")
                         {
-                            stream.Flush();
-                            Globals.fascistCounter = Globals.fascistCounter + 2;
-                            Console.WriteLine("\n the amount of fascist cards is: " + Globals.fascistCounter);
-                            outputData = Encoding.ASCII.GetBytes("\n the amount of fascist cards is now: "+ Globals.fascistCounter.ToString() + "\n and the amount of liberal cards is: " + Globals.liberalCounter.ToString());
-                            stream.Write(outputData, 0, outputData.Length);
-
-                            if (Globals.fascistCounter > 1 && Globals.fascistCounter < 6)
-                            {
-                                Globals.enablePolicy = true;
-                            }
-                            
-                            if (Globals.fascistCounter >= 6)
+                            if (Globals.haveAddedCardToCounter == false)
                             {
                                 stream.Flush();
-                                Console.WriteLine("Facists Win!");
-                                outputData = Encoding.ASCII.GetBytes("Facists Win!");
+                                outputData = Encoding.ASCII.GetBytes("The chosen policy is: " + Globals.cards[0]);
                                 stream.Write(outputData, 0, outputData.Length);
-                                break;
+
+                                stream.Flush();
+                                Globals.fascistCounter = Globals.fascistCounter + 2;
+                                Console.WriteLine("\n the amount of fascist cards is: " + Globals.fascistCounter);
+                                outputData = Encoding.ASCII.GetBytes("\n the amount of fascist cards is now: " + Globals.fascistCounter.ToString() + "\n and the amount of liberal cards is: " + Globals.liberalCounter.ToString());
+                                stream.Write(outputData, 0, outputData.Length);
+                                Globals.haveAddedCardToCounter = true;
                             }
 
-                            Globals.readyForNextRound = true;
+                            if (Globals.haveAddedCardToCounter == true)
+                            {
+                                if (Globals.fascistCounter > 1 && Globals.fascistCounter < 6)
+                                {
+
+                                    if (Globals.fascistCounter == 2 && assignedRole == roles[0])
+                                    {
+                                        stream.Flush();
+                                        outputData = Encoding.ASCII.GetBytes("second policy");
+                                        stream.Write(outputData, 0, outputData.Length);
+
+                                        for (int i = 0; i < 6; i++)
+                                        {
+                                            if (inputLine == i.ToString())
+                                            {
+                                                stream.Flush();
+                                                outputData = Encoding.ASCII.GetBytes("\n Player"+(i+1).ToString()+" role is: ");
+                                                stream.Write(outputData, 0, outputData.Length);
+                                                Globals.readyForNextRound = true;
+                                            }
+                                        }
+                                    }
+
+                                    if (Globals.fascistCounter == 3)
+                                    {
+                                        stream.Flush();
+                                        outputData = Encoding.ASCII.GetBytes("third policy");
+                                        stream.Write(outputData, 0, outputData.Length);
+                                        for (int i = 0; i < 6; i++)
+                                        {
+                                            if (inputLine == i.ToString())
+                                            {
+                                                stream.Flush();
+                                                outputData = Encoding.ASCII.GetBytes("\n Player" + (i + 1).ToString() + " is the net president");
+                                                stream.Write(outputData, 0, outputData.Length);
+                                                Globals.readyForNextRound = true;
+                                            }
+                                        }
+                                    }
+
+                                    if (Globals.fascistCounter == 4)
+                                    {
+                                        stream.Flush();
+                                        outputData = Encoding.ASCII.GetBytes("fourth policy");
+                                        stream.Write(outputData, 0, outputData.Length);
+                                        for (int i = 0; i < 6; i++)
+                                        {
+                                            if (inputLine == i.ToString())
+                                            {
+                                                stream.Flush();
+                                                outputData = Encoding.ASCII.GetBytes("\n Player" + (i + 1).ToString() + " has been executed!");
+                                                stream.Write(outputData, 0, outputData.Length);
+                                                Globals.readyForNextRound = true;
+                                            }
+                                        }
+                                    }
+
+                                    if (Globals.fascistCounter == 5)
+                                    {
+                                        stream.Flush();
+                                        outputData = Encoding.ASCII.GetBytes("fifth policy");
+                                        stream.Write(outputData, 0, outputData.Length);
+                                        for (int i = 0; i < 6; i++)
+                                        {
+                                            if (inputLine == i.ToString())
+                                            {
+                                                stream.Flush();
+                                                outputData = Encoding.ASCII.GetBytes("\n Player" + (i + 1).ToString() + " has been executed");
+                                                stream.Write(outputData, 0, outputData.Length);
+                                                Globals.readyForNextRound = true;
+                                            }
+                                        }
+                                    }
+
+                                }
+
+                                if (Globals.fascistCounter >= 6)
+                                {
+                                    stream.Flush();
+                                    Console.WriteLine("Facists Win!");
+                                    outputData = Encoding.ASCII.GetBytes("Facists Win!");
+                                    stream.Write(outputData, 0, outputData.Length);
+                                    break;
+                                }
+
+                                if (Globals.fascistCounter < 2)
+                                {
+                                    Globals.readyForNextRound = true;
+                                }
+
+                            }
+
 
                         }
 
@@ -285,11 +335,15 @@ namespace TcpEchoServer
                         if (Globals.cards[0] == "liberal")
                         {
                             stream.Flush();
+                            outputData = Encoding.ASCII.GetBytes("The chosen policy is: " + Globals.cards[0]);
+                            stream.Write(outputData, 0, outputData.Length);
+
+                            stream.Flush();
                             Globals.liberalCounter++;
                             Console.WriteLine("\n the amount of liberal cards is: " + Globals.liberalCounter);
                             outputData = Encoding.ASCII.GetBytes("\n the amount of liberal cards is now: " + Globals.liberalCounter.ToString() + "\n the amount of fascist cards is: " + Globals.fascistCounter.ToString());
                             stream.Write(outputData, 0, outputData.Length);
-                            
+
                             if (Globals.liberalCounter >= 5)
                             {
                                 stream.Flush();
