@@ -8,7 +8,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Collections;
 
-namespace TcpEchoServer 
+namespace TcpEchoServer
 {
 
     public class TcpEchoServer
@@ -40,7 +40,6 @@ namespace TcpEchoServer
 
         public static void Main()
         {
-
             TcpEchoServer server = new TcpEchoServer();
 
         }
@@ -48,12 +47,17 @@ namespace TcpEchoServer
 
     public static class Globals
     {
-        public static bool haveAssignedRole { get; set; }
         public static bool haveAssignedPresidentCards { get; set; }
-        public static bool haveAssignedChancellorCards { get; set; }
+        public static  bool haveAssignedChancellorCards { get; set; }
         public static bool readyForChancellor { get; set; }
         public static bool oneCardPicked { get; set; }
         public static List<string> cards = new List<string> { "fascist", "liberal", "fascist" };
+        public static int fascistCounter { get; set; }
+        public static int liberalCounter { get; set; }
+        public static string presidentInput;
+        public static bool displayCards { get; set; }
+        public static bool readyForNextRound { get; set; }
+        public static bool enablePolicy { get; set; }
 
 
     }
@@ -64,6 +68,7 @@ namespace TcpEchoServer
         public static int clientCounter = 0;
         int count = 0;
         string[] roles = { "president", "chancellor" };
+        public bool haveAssignedRole = false;
 
 
 
@@ -79,31 +84,34 @@ namespace TcpEchoServer
             clientCounter++;
             Console.WriteLine("new client connected, there are now {0} client(s) connected", clientCounter);
 
+            string inputLine = "";
+            string assignedRole = "";
+
+
+
+            if (clientCounter == 1)
+            {
+                assignedRole = roles[0];
+
+            }
+            if (clientCounter == 2)
+            {
+                assignedRole = roles[1];
+            }
+
             //StreamWriter writer = new StreamWriter(stream, Encoding.ASCII) { AutoFlush = true};
             //StreamReader reader = new StreamReader(stream, Encoding.ASCII);
 
             string welcome = "Welcome to secret hitler, please enter your name";
             data = Encoding.ASCII.GetBytes(welcome);
             stream.Write(data, 0, data.Length);
+            /*stream.Flush();
+            outputData = Encoding.ASCII.GetBytes(assignedRole);
+            stream.Write(outputData, 0, outputData.Length);*/
 
 
             try
             {
-                string inputLine = "";
-                string assignedRole = "";
-
-
-
-                if (clientCounter == 1)
-                {
-                    assignedRole = roles[0];
-
-                }
-                if (clientCounter == 2)
-                {
-                    assignedRole = roles[1];
-                }
-                //
 
 
                 while (true/*inputLine != null*/)
@@ -119,17 +127,20 @@ namespace TcpEchoServer
                     if (recv == 0)
                         break;
 
-                    outputData = Encoding.ASCII.GetBytes(assignedRole);
-                    stream.Write(outputData, 0, outputData.Length);
+                    /*outputData = Encoding.ASCII.GetBytes("\n there is now x fascist cards, and x liberal cards");
+                    stream.Write(outputData, 0, outputData.Length);*/
                     //stream.Write(data, 0, recv);
                     Console.WriteLine("message received from client: {0}", Encoding.ASCII.GetString(data, 0, recv));
                     inputLine = Encoding.ASCII.GetString(data, 0, recv);
 
-                    if (Globals.haveAssignedRole == false)
+                    if (haveAssignedRole == false)
                     {
-                        outputData = Encoding.ASCII.GetBytes(assignedRole);
-                        Globals.haveAssignedRole = true;
+                        stream.Flush();
+                        outputData = Encoding.ASCII.GetBytes("You have been assigned the role of: " + assignedRole);
+                        stream.Write(outputData, 0, outputData.Length);
+                        haveAssignedRole = true;
                     }
+                    
 
                     if (assignedRole == roles[0]) //president
                     {
@@ -168,7 +179,36 @@ namespace TcpEchoServer
                             stream.Write(outputData, 0, outputData.Length);
                         }
 
+                        if (Globals.enablePolicy == true)
+                        {
 
+
+                            /*if (Globals.fascistCounter == 2)
+                            {
+                                Inact.inactSearch();
+                                Inact.iInact = true;
+                            }
+
+                            if (Globals.fascistCounter == 3)
+                            {
+                                Inact.inactPresidentialPick();
+                                Inact.iInact = true;
+                            }
+
+                            if (Globals.fascistCounter == 4)
+                            {
+                                Inact.inactExecuteOrder66();
+                                Inact.iInact = true;
+                            }
+
+                            if (Globals.fascistCounter == 5)
+                            {
+                                Inact.inactVetoAndExecution();
+                                Inact.iInact = true;
+
+                            }
+                            */
+                        }
                     }
 
                     if (assignedRole == roles[1]) //chancellor
@@ -206,21 +246,76 @@ namespace TcpEchoServer
 
                             }
                         }
-
+                        
                     }
 
-                    if (Globals.oneCardPicked == true)
+                    if (Globals.oneCardPicked == true && Globals.readyForNextRound == false)
                     {
                         stream.Flush();
-                        outputData = Encoding.ASCII.GetBytes(Globals.cards[0]);
+                        outputData = Encoding.ASCII.GetBytes("The chosen policy is: " + Globals.cards[0]);
                         stream.Write(outputData, 0, outputData.Length);
 
+                        if (Globals.cards[0] == "fascist")
+                        {
+                            stream.Flush();
+                            Globals.fascistCounter = Globals.fascistCounter + 2;
+                            Console.WriteLine("\n the amount of fascist cards is: " + Globals.fascistCounter);
+                            outputData = Encoding.ASCII.GetBytes("\n the amount of fascist cards is now: "+ Globals.fascistCounter.ToString() + "\n and the amount of liberal cards is: " + Globals.liberalCounter.ToString());
+                            stream.Write(outputData, 0, outputData.Length);
+
+                            if (Globals.fascistCounter > 1 && Globals.fascistCounter < 6)
+                            {
+                                Globals.enablePolicy = true;
+                            }
+                            
+                            if (Globals.fascistCounter >= 6)
+                            {
+                                stream.Flush();
+                                Console.WriteLine("Facists Win!");
+                                outputData = Encoding.ASCII.GetBytes("Facists Win!");
+                                stream.Write(outputData, 0, outputData.Length);
+                                break;
+                            }
+
+                            Globals.readyForNextRound = true;
+
+                        }
+
+
+                        if (Globals.cards[0] == "liberal")
+                        {
+                            stream.Flush();
+                            Globals.liberalCounter++;
+                            Console.WriteLine("\n the amount of liberal cards is: " + Globals.liberalCounter);
+                            outputData = Encoding.ASCII.GetBytes("\n the amount of liberal cards is now: " + Globals.liberalCounter.ToString() + "\n the amount of fascist cards is: " + Globals.fascistCounter.ToString());
+                            stream.Write(outputData, 0, outputData.Length);
+                            
+                            if (Globals.liberalCounter >= 5)
+                            {
+                                stream.Flush();
+                                Console.WriteLine("Liberals Win!");
+                                outputData = Encoding.ASCII.GetBytes("Liberals Win!");
+                                stream.Write(outputData, 0, outputData.Length);
+                                break;
+
+                            }
+
+                            Globals.readyForNextRound = true;
+                        }
 
                     }
+
+
+                    if (Globals.readyForNextRound == true)
+                    {
+                        stream.Flush();
+                        outputData = Encoding.ASCII.GetBytes("\n the amount of liberal cards is now: " + Globals.liberalCounter.ToString() + "\n the amount of fascist cards is: " + Globals.fascistCounter.ToString());
+                        stream.Write(outputData, 0, outputData.Length);
+                    }
+
 
                 }
             }
-
             catch (Exception)
             {
                 stream.Close();
@@ -234,4 +329,6 @@ namespace TcpEchoServer
 
 
     }
+
+
 }
